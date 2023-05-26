@@ -1,0 +1,33 @@
+module Universal_Shift_Register #(parameter n=4)(
+  input clk, reset,
+  input [n-1:0] I,
+  input [1:0] sel,
+  input [1:0] si, //{msb_in, lsb_in}
+  output [n-1:0] Q,
+  output [1:0] so //{msb_out, lsb_out}
+);
+  reg [n-1:0] Q_next, Q_reg;
+  
+  // Sequential logic for registering the output
+  always @(posedge(clk), posedge(reset)) begin
+    if(reset) begin
+      Q_reg <= 'b0; // Reset the output to 0
+    end else begin
+      Q_reg <= Q_next; // Update the output with the next value
+    end
+  end
+  
+  // Combinational logic for calculating the next output value
+  always @(sel, si, Q_reg, I) begin 
+    case(sel)
+      2'b00 : begin Q_next = Q_reg; end // No shift
+      2'b01 : begin Q_next = {si[1], Q_reg[n-1:1]}; end // Shift right, input at MSB
+      2'b10 : begin Q_next = {Q_reg[n-2:0], si[0]}; end // Shift left, input at LSB
+      2'b11 : begin Q_next = I; end // Load input value
+      default : Q_next = Q_reg; // Default case, no shift
+    endcase            
+  end
+  
+  assign Q = Q_reg; // Assign registered output
+  assign so = {Q_reg[n-1], Q_reg[0]}; // Assign shifted output
+endmodule
