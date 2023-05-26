@@ -1,0 +1,63 @@
+module TB_Universl_Shif_Register(
+
+    );
+    
+    localparam n=4;
+    
+    reg clk=1'b0;
+    reg reset;
+    reg [1:0] si;
+    reg [1:0] sel;
+    reg [n-1:0] I;
+    
+    wire [n-1:0] Q;
+    wire [1:0] so;
+    
+    Universl_Shif_Register #(.n(n)) UUT (
+
+    .clk(clk), .reset(reset),
+    .I(I),
+    .sel(sel),
+    .si(si), //{msb_in,lsb_in}
+    
+    .Q(Q),
+    .so(so) //{msb_out,lsb_out}
+    );
+    
+    
+    always begin
+    #1; clk =~clk;
+    end
+    
+    initial begin
+    I =4'b0101;
+    reset =1'b0; // reset off
+    sel=2'b11; //Load input value
+    si=2'b1;
+    #5;
+    
+    I =4'b0101;
+    reset =1'b1; // reset on
+    sel=2'b0; // No shift
+    si=2'b1;
+    #5;
+    
+    I =4'b0101;
+    reset =1'b0; // reset off     
+    sel=2'b11;   //Load input value 
+    si=2'b1;
+    #5;
+    
+    I =4'b0101;
+    reset =1'b0;// reset off     
+    sel=2'b10;  // Shift left, input at LSB
+    si=2'b1;
+    #5;
+    I =4'b0101;
+    reset =1'b0; // reset off               
+    sel=2'b01;   // Shift right, input at MSB
+    si=2'b1;
+    #5;
+    $stop;
+    end
+endmodule
