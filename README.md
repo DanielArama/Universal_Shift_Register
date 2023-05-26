@@ -13,10 +13,10 @@ On a positive edge of the clock (clk) and a positive edge of the reset signal (r
 # Shifting Logic:
 The module uses combinational logic to calculate the next value (Q_next) based on the select signal (sel), shift-in data (si), current output (Q_reg), and input data (I).
 The select signal (sel) determines the type of shift operation to be performed:
-2'b00 - No shift: The output remains unchanged.
-2'b01 - Shift right: The output is shifted right by one position, and the most significant bit (MSB) is replaced with the input data (si[1]).
-2'b10 - Shift left: The output is shifted left by one position, and the least significant bit (LSB) is replaced with the input data (si[0]).
-2'b11 - Load input: The output is replaced with the input data (I).
+* 2'b00 - No shift: The output remains unchanged.
+* 2'b01 - Shift right: The output is shifted right by one position, and the most significant bit (MSB) is replaced with the input data (si[1]).
+* 2'b10 - Shift left: The output is shifted left by one position, and the least significant bit (LSB) is replaced with the input data (si[0]).
+* 2'b11 - Load input: The output is replaced with the input data (I).
 Other select signal values result in no shift, and the output remains unchanged.
 The calculated next value (Q_next) is stored in the register (Q_reg) on the next positive edge of the clock (clk).
 
