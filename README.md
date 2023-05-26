@@ -1,4 +1,4 @@
-### Universal_Shift_Register
+###  Universal_Shift_Register
 The "Universal Shift Register" module is a digital circuit that performs various shifting operations on a binary data stream.
 It can shift the data to the left or right, load a new input value, or hold the current value without any shift.
 The module takes inputs such as clock (clk), reset (reset), input data (I), select signal (sel), and shift-in data (si).
